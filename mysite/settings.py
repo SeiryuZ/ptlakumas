@@ -69,6 +69,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    'C:/Users/Win7/Desktop/PTLakumas/webapp/common-static',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -129,6 +130,9 @@ INSTALLED_APPS = (
     'accounts',
     'basicinfo',
     'sp_spareparts',
+    'sppurchase',
+    'sptransfer',
+    'spusage',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

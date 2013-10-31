@@ -41,6 +41,7 @@ class MachineType(models.Model):
 
 class MachineID(models.Model):
 	machine_type = models.ForeignKey(MachineType, on_delete=models.PROTECT)
+	factory = models.ForeignKey(Factory, on_delete=models.PROTECT)
 	machine_number = models.CharField(max_length=20, unique=True)
 
 	def __unicode__(self):
