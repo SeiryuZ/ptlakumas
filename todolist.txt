@@ -1,0 +1,1 @@
+cek apa2 yang harus dibikin unique di models nya 

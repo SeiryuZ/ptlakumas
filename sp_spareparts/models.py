@@ -3,13 +3,13 @@ from basicinfo.models import MachineType, Factory
 
 # Create your models here.
 class SparePartsTypes(models.Model):
-	spareparts_type = models.CharField(max_length=20)
+	spareparts_type = models.CharField(max_length=20, unique=True)
 
 	class Meta:
 		verbose_name = " ref: Spare Part Type"
 
 class MasterSpareParts(models.Model):
-	internal_code = models.CharField(max_length=8)
+	internal_code = models.CharField(max_length=8, unique=True)
 	supplier_code = models.CharField(max_length=20)
 	barcode = models.CharField(max_length=100, null=True, blank=True)
 	machine_type = models.ForeignKey(MachineType, on_delete=models.PROTECT)
