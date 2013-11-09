@@ -108,7 +108,7 @@ ROOT_URLCONF = 'mysite.urls'
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 TEMPLATE_DIRS = (
-    "C:/Users/Win7/Desktop/Python/DjangoProject/mysite/templates",
+    "C:/Users/Win7/Desktop/PTLakumas/webapp/templates",
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'south',
     'accounts',
     'basicinfo',
+    'sp_spareparts',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

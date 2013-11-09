@@ -14,18 +14,34 @@ class Basic(models.Model):
 	email2 = models.EmailField(null=True, blank=True)
 	email3 = models.EmailField(null=True, blank=True)
 
+	def __unicode__(self):
+		return self.company_name
+
 class Factory(models.Model):
 	code_name = models.CharField (max_length=20)
 	address = models.CharField (max_length=200)
 	phone = models.CharField (max_length=20, null=True, blank=True)
 	fax = models.CharField (max_length=20, null=True, blank=True)
 
+	def __unicode__(self):
+		return self.code_name
+
 class Department(models.Model):
 	department_name = models.CharField (max_length=20)
 
-class Machine(models.Model):
+	def __unicode__(self):
+		return self.department_name
+
+class MachineType(models.Model):
+	department = models.ForeignKey(Department, on_delete=models.PROTECT)
 	machine_type = models.CharField(max_length=20)
 
+	def __unicode__(self):
+		return self.machine_type
+
 class MachineID(models.Model):
-	department = models.ForeignKey(Department, on_delete=models.PROTECT)
-	
+	machine_type = models.ForeignKey(MachineType, on_delete=models.PROTECT)
+	machine_number = models.CharField(max_length=20)
+
+	def __unicode__(self):
+		return self.machine_number
