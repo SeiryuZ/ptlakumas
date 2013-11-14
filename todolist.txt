@@ -1,5 +1,5 @@
 belajar signaling
-bikin base template page untuk login page dan login failed, lalu untuk halaman navigation dasar
+bikin base template page untuk login page dan login failed, lalu untuk halaman navigation dasar -- done
+cari aslinya gimana cara bikin dropdown button di bootstrap
 
-switch 16 port 1 buah
-ethernet 2 buah
+bikin app untuk log, dan bikin satu table untuk masing-masing modul

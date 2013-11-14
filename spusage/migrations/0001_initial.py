@@ -8,19 +8,33 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding unique constraint on 'MasterSpareParts', fields ['internal_code']
-        db.create_unique(u'sp_spareparts_masterspareparts', ['internal_code'])
+        # Adding model 'Adjustment'
+        db.create_table(u'spusage_adjustment', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('stock_spare_parts', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sp_spareparts.StockSpareParts'], on_delete=models.PROTECT)),
+            ('quantity', self.gf('django.db.models.fields.SmallIntegerField')()),
+            ('reason', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
+            ('memo', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+        ))
+        db.send_create_signal(u'spusage', ['Adjustment'])
 
-        # Adding unique constraint on 'SparePartsTypes', fields ['spareparts_type']
-        db.create_unique(u'sp_spareparts_sparepartstypes', ['spareparts_type'])
+        # Adding model 'Replacement'
+        db.create_table(u'spusage_replacement', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('stock_spare_parts', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sp_spareparts.StockSpareParts'], on_delete=models.PROTECT)),
+            ('machine_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['basicinfo.MachineID'])),
+            ('quantity', self.gf('django.db.models.fields.PositiveSmallIntegerField')()),
+            ('memo', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+        ))
+        db.send_create_signal(u'spusage', ['Replacement'])
 
 
     def backwards(self, orm):
-        # Removing unique constraint on 'SparePartsTypes', fields ['spareparts_type']
-        db.delete_unique(u'sp_spareparts_sparepartstypes', ['spareparts_type'])
+        # Deleting model 'Adjustment'
+        db.delete_table(u'spusage_adjustment')
 
-        # Removing unique constraint on 'MasterSpareParts', fields ['internal_code']
-        db.delete_unique(u'sp_spareparts_masterspareparts', ['internal_code'])
+        # Deleting model 'Replacement'
+        db.delete_table(u'spusage_replacement')
 
 
     models = {
@@ -36,6 +50,13 @@ class Migration(SchemaMigration):
             'fax': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'})
+        },
+        u'basicinfo.machineid': {
+            'Meta': {'object_name': 'MachineID'},
+            'factory': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['basicinfo.Factory']", 'on_delete': 'models.PROTECT'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'machine_number': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
+            'machine_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['basicinfo.MachineType']", 'on_delete': 'models.PROTECT'})
         },
         u'basicinfo.machinetype': {
             'Meta': {'object_name': 'MachineType'},
@@ -69,7 +90,23 @@ class Migration(SchemaMigration):
             'initial_quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {}),
             'master_spare_parts': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sp_spareparts.MasterSpareParts']"}),
             'quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {})
+        },
+        u'spusage.adjustment': {
+            'Meta': {'object_name': 'Adjustment'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'memo': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'quantity': ('django.db.models.fields.SmallIntegerField', [], {}),
+            'reason': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'stock_spare_parts': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sp_spareparts.StockSpareParts']", 'on_delete': 'models.PROTECT'})
+        },
+        u'spusage.replacement': {
+            'Meta': {'object_name': 'Replacement'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'machine_id': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['basicinfo.MachineID']"}),
+            'memo': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {}),
+            'stock_spare_parts': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sp_spareparts.StockSpareParts']", 'on_delete': 'models.PROTECT'})
         }
     }
 
-    complete_apps = ['sp_spareparts']
+    complete_apps = ['spusage']

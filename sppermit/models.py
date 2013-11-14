@@ -16,3 +16,4 @@ class PermitItems(models.Model):
 	permit_number = models.ForeignKey(Permit)
 	item = models.CharField(max_length=100)
 	quantity = models.PositiveSmallIntegerField()
+	memo = models.TextField(blank=True, null=True)

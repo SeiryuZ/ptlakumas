@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save, pre_delete
+from logs.signals import create_basic_info_logs, delete_basic_info_logs
 
 # Create your models here.
 class Basic(models.Model):
@@ -46,3 +48,9 @@ class MachineID(models.Model):
 
 	def __unicode__(self):
 		return self.machine_number
+
+post_save.connect(create_basic_info_logs, sender=Factory)
+pre_delete.connect(delete_basic_info_logs, sender=Factory)
+
+post_save.connect(create_basic_info_logs, sender=Basic)
+pre_delete.connect(delete_basic_info_logs, sender=Basic)

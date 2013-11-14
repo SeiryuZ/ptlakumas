@@ -99,6 +99,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'request_provider.middleware.RequestProvider',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -129,10 +130,12 @@ INSTALLED_APPS = (
     'south',
     'accounts',
     'basicinfo',
+    'logs',
     'sp_spareparts',
     'sppurchase',
     'sptransfer',
     'spusage',
+    'sppermit',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
