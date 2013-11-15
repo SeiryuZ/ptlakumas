@@ -1,0 +1,20 @@
+{% extends "basicpage.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block contentheader %}
+Forms
+{% endblock %}
+
+
+
+{% block content %}
+<form role="form" action="{% url 'sp_spareparts:sptypesadd' %}" method="POST">
+	{% csrf_token %}
+	<div class="form-group">
+		<label for="id_spare_parts_types">Enter new type below:</label>
+			{{form.spareparts_type|add_class:"form-control"|attr:"placeholder:spare part type"}}
+	</div>
+	<button type="submit" class="btn btn-primary">Add new!</button>
+</form>
+{% endblock %}

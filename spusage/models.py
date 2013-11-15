@@ -1,6 +1,8 @@
 from django.db import models
 from sp_spareparts.models import StockSpareParts
 from basicinfo.models import MachineID
+from django.db.models.signals import post_save, pre_delete
+from logs.signals import add_spareparts_logs, delete_spareparts_logs
 
 # Create your models here.
 
@@ -17,3 +19,9 @@ class Replacement(models.Model):
 	machine_id = models.ForeignKey(MachineID) 
 	quantity = models.PositiveSmallIntegerField()
 	memo = models.TextField(blank=True, null=True)
+
+post_save.connect(add_spareparts_logs, sender=Adjustment)
+pre_delete.connect(delete_spareparts_logs, sender=Adjustment)
+
+post_save.connect(add_spareparts_logs, sender=Replacement)
+pre_delete.connect(delete_spareparts_logs, sender=Replacement)

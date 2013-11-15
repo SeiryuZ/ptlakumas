@@ -1,5 +1,7 @@
 from django.db import models
 from sp_spareparts.models import StockSpareParts
+from django.db.models.signals import post_save, pre_delete
+from logs.signals import add_spareparts_logs, delete_spareparts_logs
 
 # Create your models here.
 
@@ -27,4 +29,8 @@ class TransferItemsDelivery(models.Model):
 	delivered_quantity = models.PositiveSmallIntegerField()
 	memo = models.TextField(blank=True, null=True)
 	
+post_save.connect(add_spareparts_logs, sender=Transfer)
+pre_delete.connect(delete_spareparts_logs, sender=Transfer)
 
+post_save.connect(add_spareparts_logs, sender=TransferItems)
+pre_delete.connect(delete_spareparts_logs, sender=TransferItems)

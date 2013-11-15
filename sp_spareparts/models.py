@@ -1,12 +1,17 @@
 from django.db import models
 from basicinfo.models import MachineType, Factory
+from django.db.models.signals import post_save, pre_delete
+from logs.signals import add_spareparts_logs, delete_spareparts_logs
 
 # Create your models here.
 class SparePartsTypes(models.Model):
 	spareparts_type = models.CharField(max_length=20, unique=True)
 
 	class Meta:
-		verbose_name = " ref: Spare Part Type"
+		verbose_name = " ref: Spareparts Type"
+
+	def  __unicode__(self):
+		return self.spareparts_type
 
 class MasterSpareParts(models.Model):
 	internal_code = models.CharField(max_length=8, unique=True)
@@ -52,3 +57,12 @@ class StockSpareParts(models.Model):
 
 	class Meta:
 		verbose_name = 'Stock'
+
+post_save.connect(add_spareparts_logs, sender=SparePartsTypes)
+pre_delete.connect(delete_spareparts_logs, sender=SparePartsTypes)
+
+post_save.connect(add_spareparts_logs, sender=MasterSpareParts)
+pre_delete.connect(delete_spareparts_logs, sender=MasterSpareParts)
+
+post_save.connect(add_spareparts_logs, sender=StockSpareParts)
+pre_delete.connect(delete_spareparts_logs, sender=StockSpareParts)

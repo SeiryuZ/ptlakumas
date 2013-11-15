@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save, pre_delete
+from logs.signals import add_spareparts_logs, delete_spareparts_logs
 
 # Create your models here.
 class Permit(models.Model):
@@ -17,3 +19,9 @@ class PermitItems(models.Model):
 	item = models.CharField(max_length=100)
 	quantity = models.PositiveSmallIntegerField()
 	memo = models.TextField(blank=True, null=True)
+
+post_save.connect(add_spareparts_logs, sender=Permit)
+pre_delete.connect(delete_spareparts_logs, sender=Permit)
+
+post_save.connect(add_spareparts_logs, sender=PermitItems)
+pre_delete.connect(delete_spareparts_logs, sender=PermitItems)

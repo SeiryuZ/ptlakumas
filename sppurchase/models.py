@@ -1,5 +1,7 @@
 from django.db import models
 from sp_spareparts.models import StockSpareParts
+from django.db.models.signals import post_save, pre_delete
+from logs.signals import add_spareparts_logs, delete_spareparts_logs
 
 # Create your models here.
 
@@ -32,3 +34,9 @@ class PurchaseItemsDelivery(models.Model):
 	delivery_date = models.DateField()
 	delivered_quantity = models.PositiveSmallIntegerField()
 	memo = models.TextField(blank=True, null=True)
+
+post_save.connect(add_spareparts_logs, sender=Purchase)
+pre_delete.connect(delete_spareparts_logs, sender=Purchase)
+
+post_save.connect(add_spareparts_logs, sender=PurchaseItems)
+pre_delete.connect(delete_spareparts_logs, sender=PurchaseItems)

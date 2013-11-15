@@ -471,6 +471,7 @@ cite {
   text-align: center;
 }
 
+/* this is modified by elbert. added -webkit-body*/
 h1,
 h2,
 h3,
@@ -483,7 +484,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: -webkit-body, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
   line-height: 1.1;
   color: inherit;
@@ -2540,11 +2541,11 @@ fieldset[disabled] .btn-link:focus {
   border-radius: 6px;
 }
 
-/* this is modified by elbert. changed font-size from 12px to 14px*/
+/* this is modified by elbert. changed font-size from 12px to 13px*/
 .btn-sm,
 .btn-xs {
   padding: 5px 10px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   border-radius: 3px;
 }
