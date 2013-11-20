@@ -1,0 +1,88 @@
+{% extends "basicpage.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block contentheader %}
+Add New Item to Spareparts Master Data
+{% endblock %}
+
+{% block content %}
+<form role="form" class="form-horizontal" action="{% url 'sp_spareparts:spmasteredit' master.id %}" method="POST">
+	<div class="row">
+		<div class="col-md-6" style="border-right:1px solid #eee">
+			{% csrf_token %}
+			<div class="form-group">
+				<label for="id_internal_code" class="col-md-4 control-label" style="text-align:left">Internal Code</label>
+				<div class="col-md-6">
+					{{form.internal_code|add_class:"form-control"|attr:"placeholder:internal code"}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="id_supplier_code" class="col-md-4 control-label" style="text-align:left">Supplier Code</label>
+				<div class="col-md-6">
+					{{form.supplier_code|add_class:"form-control"|attr:"placeholder:supplier code"}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="id_machine_type" class="col-md-4 control-label" style="text-align:left">Machine Type</label>
+				<div class="col-md-6">
+					{{form.machine_type|add_class:"form-control"|attr:"placeholder:machine type"}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="id_character" class="col-md-4 control-label" style="text-align:left">Characteristic</label>
+				<div class="col-md-6">
+					{{form.character|add_class:"form-control"|attr:"placeholder:machine type"}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="id_movability" class="col-md-4 control-label" style="text-align:left">Movability</label>
+				<div class="col-md-6">
+					{{form.movability|add_class:"form-control"|attr:"placeholder:movability"}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="id_chain_wheel_type" class="col-md-4 control-label" style="text-align:left">Chain Wheel Type</label>
+				<div class="col-md-6">
+					{{form.chain_wheel_type|add_class:"form-control"|attr:"placeholder:chain_wheel_type"}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="id_spareparts_type" class="col-md-4 control-label" style="text-align:left">Spareparts Type</label>
+				<div class="col-md-6">
+					{{form.spareparts_type|add_class:"form-control"|attr:"placeholder:spareparts_type"}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="id_natural_frequency" class="col-md-4 control-label" style="text-align:left">Frequency</label>
+				<div class="col-md-6">
+					{{form.natural_frequency|add_class:"form-control"|attr:"placeholder:natural_frequency"}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="id_lifetime" class="col-md-4 control-label" style="text-align:left">Est. Lifetime</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						{{form.lifetime|add_class:"form-control"|attr:"placeholder:lifetime"}}
+						<span class="input-group-addon">months</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-offset-1 col-md-1">
+			<button type="submit" class="btn btn-primary">Update!</button>
+		</div>
+
+	</div>
+</form>
+
+{% endblock %}

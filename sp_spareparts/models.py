@@ -26,8 +26,8 @@ class MasterSpareParts(models.Model):
 	character = models.CharField(max_length=1, choices=CHARACTER_CHOICES)
 
 	MOVABILITY_CHOICES = (
-		('B', 'Barang bergerak'),
-		('N', 'Barang tidak bergerak'),
+		('M', 'Moving'),
+		('S', 'Static'),
 		)
 	movability = models.CharField(max_length=1, choices=MOVABILITY_CHOICES)
 	

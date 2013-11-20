@@ -32,7 +32,10 @@
         <input type="password" id='password' name='password' class="form-control" placeholder="password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
-
     </div>
+
+    {% block accessdenied %}
+    {% endblock %}
+
   </body>
 </html>

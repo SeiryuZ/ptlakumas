@@ -49,12 +49,11 @@ Spareparts Types
 				</div>
 				<div class="col-md-2" style="padding-right:0px">
 					<input type="button" value="edit" 
-					class="btn btn-success btn-xs pull-right" 
-					style="width:50px;margin-left:5px" 
+					class="btn btn-success btn-xs pull-right btn-options" 
 					onclick="location.href='{% url 'sp_spareparts:sptypesedit' type.id %}'"/>
 
 					<input type="button" value="delete"
-					class="btn btn-danger btn-xs pull-right"
+					class="btn btn-danger btn-xs pull-right btn-options"
 					style="width:50px;margin-left:5px"
 					onclick="location.href='{% url 'sp_spareparts:sptypesdelete' type.id %}'"/>
 				</div>

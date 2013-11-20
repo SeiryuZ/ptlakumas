@@ -1,10 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from sp_spareparts.models import SparePartsTypes
-from sp_spareparts.forms import SparePartsTypesForm
+from sp_spareparts.models import SparePartsTypes, MasterSpareParts, StockSpareParts
+from sp_spareparts.forms import SparePartsTypesForm, MasterSparePartsForm, StockSparePartsForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.db.models.deletion import ProtectedError
+# to stop execution, put below code whereever you wanna stop
+# and then directly from the console you can print (print request.POST, request.GET, request.user)
+# without changing the views.
+# import pdb; pdb.set_trace()
 
 # Create your views here.
 
@@ -71,3 +75,73 @@ def delete_types(request, type_id):
 		HttpResponse ("there is child data. cannot delete object")
 
 	return HttpResponseRedirect(reverse('sp_spareparts:sptypes'))
+
+@login_required(login_url='/login/')
+def master_spareparts_list(request):
+	master_spare_parts = MasterSpareParts.objects.all()
+	context = {
+		'master': master_spare_parts,
+		}
+	return render(request, 'sp_spareparts/spmaster.html', context)
+
+@login_required(login_url='/login/')
+def add_master(request):
+	# to process the addtion
+	if request.method =='POST':
+		form = MasterSparePartsForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(reverse('sp_spareparts:spmaster'))
+		else:
+			print (request.POST)
+			# return HttpResponse("some data are not entered corrently")
+	
+
+	# to display the form
+	form = MasterSparePartsForm()
+	context = {
+		'form' : form,
+		}
+	return render (request, 'sp_spareparts/spmasteradd.html', context)
+
+@login_required(login_url='/login/')
+def edit_master(request, master_id):
+	# to process the update
+	if request.method == 'POST':
+		master_spare_parts = MasterSpareParts.objects.get(pk=master_id)
+		form = MasterSparePartsForm(request.POST, instance=master_spare_parts)
+		if form.is_valid():
+			master_spare_parts = form.save(commit=False)
+			master_spare_parts.save()
+			return HttpResponseRedirect(reverse('sp_spareparts:spmaster'))
+		else:
+			return HttpResponse ("some data are not entered corrently")
+
+	# to display the form of related object
+	master_spare_parts = MasterSpareParts.objects.get(pk=master_id)
+	form = MasterSparePartsForm(instance=master_spare_parts)
+	context = {
+		'form' : form,
+		'master' : master_spare_parts,
+	}
+	return render (request, 'sp_spareparts/spmasteredit.html', context)
+
+
+@login_required(login_url='/login/')
+def delete_master(request,master_id):
+	# to process the deletion
+	try:
+		master_spare_parts = MasterSpareParts.objects.get(pk=master_id).delete()
+	except ProtectedError:
+		return HttpResponse ("data cannot be deleted, child data is protectec")
+
+	return HttpResponseRedirect(reverse('sp_spareparts:spmaster'))
+
+@login_required(login_url='/login/')
+def stock_spareparts_list(request):
+	stock_spareparts_list = StockSpareParts.objects.all()
+	context = {
+		'stock' : stock_spareparts_list
+		}
+	return render (request, 'sp_spareparts/spstock.html', context)
+
