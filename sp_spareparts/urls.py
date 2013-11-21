@@ -18,4 +18,6 @@ urlpatterns = patterns('',
 		name='spmasterdelete'),
 	url(r'^spstock/$', views.stock_spareparts_list,
 		name='spstock'),
+	url(r'^spstock/add/$', views.add_stock,
+	name='spstockadd'),
 	)

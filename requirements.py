@@ -1,0 +1,16 @@
+-curses==2.2
+Django==1.5.5
+Fabric==1.8.0
+MySQL-python==1.2.4
+Pygments==1.6
+South==0.8.2
+bpython==0.12
+distribute==0.7.3
+django-request-provider==1.0.2
+django-widget-tweaks==1.3
+ecdsa==0.10
+lpthw.web==1.1
+nose==1.3.0
+paramiko==1.12.0
+pycrypto==2.6
+virtualenv==1.10.1

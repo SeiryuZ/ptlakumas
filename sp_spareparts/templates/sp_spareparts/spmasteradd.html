@@ -87,9 +87,15 @@ Add New Item to Spareparts Master Data
 				</div>
 			</div>
 
-			<div class="row" style="margin-top:50px">
-				<div class="col-md-offset-1 col-md-5">
-					<p id="fieldhelp">This is text for field onselect</p>
+			<div class="row" style="margin-top:25px">
+				<div class="col-md-offset-1 col-md-1">	
+					<button id="HelpButton" type="button" class ="btn">Show/Hide Help</button>
+				</div>
+			</div>
+
+			<div class="row" style="margin-top:25px">
+				<div class="col-md-offset-1 col-md-11">
+					<p id="fieldhelp"><b>Help Text</b></p>
 				</div>
 			</div>
 
@@ -98,21 +104,44 @@ Add New Item to Spareparts Master Data
 	</div>
 </form>
 
-<!-- Below is necessary java script source to implement input masking -->
-<script src="{% static 'js/javascripttools/JavaScriptUtil.js' %}"></script>
-<script src="{% static 'js/javascripttools/Parsers.js' %}"></script>
-<script src="{% static 'js/javascripttools/InputMask.js' %}"></script>
-
 <script language="JavaScript">
     function masking() {
         var internal_code_mask = new InputMask("UUUU####", "internal_code");
         var lifetime_mask = new InputMask("##", "lifetime")
     }
 
-    function internalCodeHelp() {
-    	var help_text = document.getElementById("fieldhelp")
-    	help_text.innerHTML = "this is the internal code help"
-    }
+</script>
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script>
+//demonstrate variable creation with break lines
+var internal_code_help = 
+"Pengisian kode internal sparepart terdiri dari 4 huruf kapital diikuti dengan 4 digit angka, " + 
+"Misalnya RVGR001:<br/><ul>" + 
+"<li>Dua huruf pertama (RV) adalah kode department untuk <b>Roving</b>.</li>" + 
+"<li>Dua huruf berikutnya (GR) adalah kode produk untuk <b>Gearing</b>.</li>" + 
+"<li>Empat angka berikutnya (0001) adalah nomor urut. Untuk sparepart lainnya yang berada pada departemen yang sama dan kode produk yang sama, maka kodenya RVGR0002.</li></ul>"
+
+var supplier_code_help = 
+"Kode supplier mengikuti kode yang selama ini sudah ada seperti <b>Bearing6600</b>. " +
+"Kode ini adalah kode yang dipakai ketika memesan stock sparepart ke supplier"
+
+var no_help_text = "No help text available."
+
+	$(document).ready(function(){
+	  $("#id_internal_code").focus(function(){
+	    $("#fieldhelp").html(internal_code_help);
+	  });
+	  $("#id_supplier_code").focus(function(){
+	  	$("#fieldhelp").html(supplier_code_help);
+	  });
+	  $("#HelpButton").click(function(){
+	  	$("#fieldhelp").toggle(100);
+	  });
+	  $("#id_machine_type, #id_character, #id_movability, #id_chain_wheel_type, #id_spareparts_type, #id_natural_frequency, #id_lifetime").focus(function(){
+	  	$("#fieldhelp").html(no_help_text);
+	  });
+	});
 
 
 </script>

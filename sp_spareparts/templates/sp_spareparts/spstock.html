@@ -1,12 +1,47 @@
 {% extends "basicpage.html" %}
 {% load staticfiles %}
 
+{% block actionbutton %}
+<a href="{% url 'sp_spareparts:spstockadd' %}" class="btn btn-primary btn-xs pull-right" style="margin-left:5px; width:100px">Add</a>
+{% endblock %}
+
 {% block contentheader %}
 Stock Spareparts
 {% endblock %}
 
 {% block content %}
 
-contents goes here
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th style="width:1%;white-space:nowrap">#</th>
+			<th style="width:1%;white-space:nowrap"></th>
+			<th>
+				<div class="col-md-2">Internal Code</div>
+				<div class="col-md-2">Supplier Code</div>
+				<div class="col-md-2">Factory</div>
+				<div class="col-md-2">Quantity</div>
+				<div class="col-md-4" style="padding-right:0px;text-align:right">
+					Options</div>
+			</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% for stock in stocks %}
+		<tr>
+			<td style="width:1%;white-space:nowrap">{{forloop.counter}}</td>
+			<td style="width:1%;white-space:nowrap">.</td>
+			<td>
+				<div class="col-md-2">{{stock.master_spare_parts}}</div>
+				<div class="col-md-2">{{stock.master_spare_parts.supplier_code}}</div>
+				<div class="col-md-2">{{stock.factory}}</div>
+				<div class="col-md-2">{{stock.quantity}}</div>
+			</td>
+
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 
 {% endblock %}

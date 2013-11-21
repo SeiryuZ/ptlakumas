@@ -141,7 +141,10 @@ def delete_master(request,master_id):
 def stock_spareparts_list(request):
 	stock_spareparts_list = StockSpareParts.objects.all()
 	context = {
-		'stock' : stock_spareparts_list
+		'stocks' : stock_spareparts_list
 		}
 	return render (request, 'sp_spareparts/spstock.html', context)
 
+@login_required(login_url='/login/')
+def add_stock(request):
+	return HttpResponse("this is the dummy page to add stock")
