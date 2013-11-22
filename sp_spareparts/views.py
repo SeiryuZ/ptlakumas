@@ -145,6 +145,3 @@ def stock_spareparts_list(request):
 		}
 	return render (request, 'sp_spareparts/spstock.html', context)
 
-@login_required(login_url='/login/')
-def add_stock(request):
-	return HttpResponse("this is the dummy page to add stock")
