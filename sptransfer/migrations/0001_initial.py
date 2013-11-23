@@ -11,6 +11,8 @@ class Migration(SchemaMigration):
         # Adding model 'Transfer'
         db.create_table(u'sptransfer_transfer', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('origin', self.gf('django.db.models.fields.related.ForeignKey')(related_name='origin', on_delete=models.PROTECT, to=orm['sp_spareparts.StockSpareParts'])),
+            ('destination', self.gf('django.db.models.fields.related.ForeignKey')(related_name='destination', on_delete=models.PROTECT, to=orm['sp_spareparts.StockSpareParts'])),
             ('number', self.gf('django.db.models.fields.CharField')(unique=True, max_length=20)),
             ('request_approv', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('request_reject', self.gf('django.db.models.fields.BooleanField')(default=False)),
@@ -24,8 +26,6 @@ class Migration(SchemaMigration):
         db.create_table(u'sptransfer_transferitems', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('transfer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sptransfer.Transfer'], on_delete=models.PROTECT)),
-            ('origin', self.gf('django.db.models.fields.related.ForeignKey')(related_name='origin', on_delete=models.PROTECT, to=orm['sp_spareparts.StockSpareParts'])),
-            ('destination', self.gf('django.db.models.fields.related.ForeignKey')(related_name='destination', on_delete=models.PROTECT, to=orm['sp_spareparts.StockSpareParts'])),
             ('requested_quantity', self.gf('django.db.models.fields.PositiveSmallIntegerField')()),
             ('approved_quantity', self.gf('django.db.models.fields.PositiveSmallIntegerField')(null=True, blank=True)),
             ('memo', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
@@ -105,19 +105,19 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Transfer'},
             'cancel_flag': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'closed_flag': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'destination': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'destination'", 'on_delete': 'models.PROTECT', 'to': u"orm['sp_spareparts.StockSpareParts']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'memo': ('django.db.models.fields.TextField', [], {}),
             'number': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
+            'origin': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'origin'", 'on_delete': 'models.PROTECT', 'to': u"orm['sp_spareparts.StockSpareParts']"}),
             'request_approv': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'request_reject': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'sptransfer.transferitems': {
             'Meta': {'object_name': 'TransferItems'},
             'approved_quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'destination': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'destination'", 'on_delete': 'models.PROTECT', 'to': u"orm['sp_spareparts.StockSpareParts']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'memo': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'origin': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'origin'", 'on_delete': 'models.PROTECT', 'to': u"orm['sp_spareparts.StockSpareParts']"}),
             'requested_quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {}),
             'transfer': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sptransfer.Transfer']", 'on_delete': 'models.PROTECT'})
         },

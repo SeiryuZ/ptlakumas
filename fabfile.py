@@ -16,9 +16,9 @@ def migrate_initial():
 	local ("manage.py migrate")
 
 def schemamigration_auto():
-with settings(warn_only=True):
-	for app in apps_to_watch:
-		local ("manage.py schemamigration %s --auto" % app)
+	with settings(warn_only=True):
+		for app in apps_to_watch:
+			local ("manage.py schemamigration %s --auto" % app)
 
 def migrate_auto():
 	schemamigration_auto()

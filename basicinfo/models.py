@@ -28,6 +28,9 @@ class Factory(models.Model):
 	def __unicode__(self):
 		return self.code_name
 
+	class Meta:
+		verbose_name = "Factorie"
+
 class Department(models.Model):
 	department_name = models.CharField (max_length=20, unique=True)
 
@@ -48,6 +51,9 @@ class MachineID(models.Model):
 
 	def __unicode__(self):
 		return self.machine_number
+
+	class Meta:
+		verbose_name = "Machine"
 
 post_save.connect(add_basic_info_logs, sender=Factory)
 pre_delete.connect(delete_basic_info_logs, sender=Factory)

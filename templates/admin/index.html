@@ -25,6 +25,14 @@
                     Basic Company Information
                 {% elif app.name = 'Sp_Spareparts' %}
                     Spareparts
+                {% elif app.name = 'Sppermit' %}
+                    Permit Letter
+                {% elif app.name = 'Sppurchase' %}
+                    Purchases
+                {% elif app.name = 'Sptransfer' %}
+                    Transfers
+                {% elif app.name = 'Spusage' %}
+                    Spareparts Usage                    
                 {% else %}
                     {{app.name}}
                 {% endif %}
@@ -59,6 +67,8 @@
     below is the workaround to re-arrange application in django admin index. do that for every app you want base on your desired ordering 
     -------------------------------------------
     {% endcomment %}
+
+    {% comment %} ----delete this when done
     
     to order the application in admin page as i desired
 
@@ -77,6 +87,9 @@
             add spareparts application and all related models here
         {% endif %}
     {% endfor %}
+
+
+    ------ delete this when done {% endcomment %}
 
     {% comment %}
     -------------------------------------------

@@ -16,4 +16,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('accounts.urls', namespace='accounts')),
     url(r'^spareparts/', include('sp_spareparts.urls', namespace='sp_spareparts')),
+    url(r'^sppurchase/', include('sppurchase.urls', namespace='sppurchase')),
+    url(r'^sptransfer/', include('sptransfer.urls', namespace='sptransfer')),
+
 )

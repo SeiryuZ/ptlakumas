@@ -49,6 +49,9 @@ class MasterSpareParts(models.Model):
 	class Meta:
 		verbose_name = 'Master Data Spare Part'
 
+	def __unicode__(self):
+		return self.internal_code + " / " + self.supplier_code
+
 class StockSpareParts(models.Model):
 	factory = models.ForeignKey(Factory)
 	master_spare_parts = models.ForeignKey(MasterSpareParts)

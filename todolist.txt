@@ -4,8 +4,3 @@ cari tau bikin date time picker
 cara delete multiple items
 bikin sebelum delete muncul pertanyaan dulu
 perbaiki tabel planning sesuai model, supaya tidak bingung
-belajar java script dan jquery dan cara pake nya
-
-harusnya stock spare parts tidak punya add. cara add barang adalah lewat purchase atau transfer.
-untuk itu dibutuhkan field factory di model purchase 
-(transfer sudah punya origin & destination. Tapi sekarang masih di transfer item, mungkin bisa dipertimbangkan untuk dipindah ke transfer, bukan di item lagi)

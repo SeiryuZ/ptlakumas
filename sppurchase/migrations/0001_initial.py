@@ -11,6 +11,7 @@ class Migration(SchemaMigration):
         # Adding model 'Purchase'
         db.create_table(u'sppurchase_purchase', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('factory', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['basicinfo.Factory'], on_delete=models.PROTECT)),
             ('request_number', self.gf('django.db.models.fields.CharField')(unique=True, max_length=20)),
             ('request_approval', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('request_reject', self.gf('django.db.models.fields.BooleanField')(default=False)),
@@ -25,7 +26,7 @@ class Migration(SchemaMigration):
         db.create_table(u'sppurchase_purchaseitems', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('purchase', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sppurchase.Purchase'], on_delete=models.PROTECT)),
-            ('stock_spare_parts', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sp_spareparts.StockSpareParts'], on_delete=models.PROTECT)),
+            ('master_spare_parts', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sp_spareparts.MasterSpareParts'], on_delete=models.PROTECT)),
             ('requested_quantity', self.gf('django.db.models.fields.PositiveSmallIntegerField')()),
             ('unit_price', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('additional_cost', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
@@ -95,18 +96,11 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'spareparts_type': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'})
         },
-        u'sp_spareparts.stockspareparts': {
-            'Meta': {'object_name': 'StockSpareParts'},
-            'factory': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['basicinfo.Factory']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'initial_quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {}),
-            'master_spare_parts': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sp_spareparts.MasterSpareParts']"}),
-            'quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {})
-        },
         u'sppurchase.purchase': {
             'Meta': {'object_name': 'Purchase'},
             'cancel_flag': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'closed_flag': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'factory': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['basicinfo.Factory']", 'on_delete': 'models.PROTECT'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'memo': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'order_number': ('django.db.models.fields.CharField', [], {'max_length': '20', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
@@ -119,10 +113,10 @@ class Migration(SchemaMigration):
             'additional_cost': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'approved_quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'master_spare_parts': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sp_spareparts.MasterSpareParts']", 'on_delete': 'models.PROTECT'}),
             'memo': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'purchase': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sppurchase.Purchase']", 'on_delete': 'models.PROTECT'}),
             'requested_quantity': ('django.db.models.fields.PositiveSmallIntegerField', [], {}),
-            'stock_spare_parts': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sp_spareparts.StockSpareParts']", 'on_delete': 'models.PROTECT'}),
             'unit_price': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
         },
         u'sppurchase.purchaseitemsdelivery': {

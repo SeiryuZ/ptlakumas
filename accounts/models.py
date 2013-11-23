@@ -6,3 +6,6 @@ from basicinfo.models import Factory
 class Origin(models.Model):
 	user = models.OneToOneField(User)
 	factory = models.ForeignKey(Factory)
+
+	def __unicode__(self):
+		return self.factory

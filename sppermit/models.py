@@ -20,6 +20,9 @@ class PermitItems(models.Model):
 	quantity = models.PositiveSmallIntegerField()
 	memo = models.TextField(blank=True, null=True)
 
+	class Meta:
+		verbose_name = "Permit Item"
+
 post_save.connect(add_spareparts_logs, sender=Permit)
 pre_delete.connect(delete_spareparts_logs, sender=Permit)
 
