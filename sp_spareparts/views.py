@@ -133,7 +133,7 @@ def delete_master(request,master_id):
 	try:
 		master_spare_parts = MasterSpareParts.objects.get(pk=master_id).delete()
 	except ProtectedError:
-		return HttpResponse ("data cannot be deleted, child data is protectec")
+		return HttpResponse ("data cannot be deleted, child data is protected")
 
 	return HttpResponseRedirect(reverse('sp_spareparts:spmaster'))
 

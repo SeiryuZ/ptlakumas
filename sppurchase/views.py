@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.db.models.deletion import ProtectedError
 from django.forms.models import inlineformset_factory
 from sppurchase.models import Purchase, PurchaseItems, PurchaseItemsDelivery
+from sp_spareparts.models import MasterSpareParts
 from sppurchase.forms import PurchaseForm, PurchaseItemsForm, PurchaseItemsDeliveryForm, PurchaseItemsFormSet
 from accounts.models import Origin
 from django.contrib.auth.models import User
@@ -38,7 +39,7 @@ def request_add(request):
 				parent_instance = form.save()
 				formset.instance = parent_instance
 				formset.save()
-				return HttpResponseRedirect (reverse('sp_spareparts:spstock'))
+				return HttpResponseRedirect (reverse('sppurchase:request_open'))
 			else:
 				return HttpResponse ("save failed items level")
 		else:
@@ -47,11 +48,13 @@ def request_add(request):
 	# to display the form purchase
 	form = PurchaseForm()
 	formset = PurchaseItemsFormSet()
+	master_spare_parts = MasterSpareParts.objects.all()
 
 
 	context = {
 		'form': form,
 		'formset': formset,
+		'masters': master_spare_parts,
 		}
 
 	return render (request, 'sppurchase/requestadd.html', context)
@@ -61,12 +64,39 @@ def request_details(request, request_id):
 
 	purchase = Purchase.objects.get(pk=request_id)
 	purchase_items = PurchaseItems.objects.filter(purchase=request_id)
-	form = PurchaseForm(instance=purchase)
-	formset = PurchaseItemsFormSet(instance=purchase)
 
 	context = {
-		'form': form,
-		'formset': formset,
+		'purchase': purchase,
+		'items': purchase_items,
 		}
 
 	return render (request, 'sppurchase/requestdetails.html', context)
+
+@login_required(login_url="/login/")
+def request_approval(request, request_id):
+	# to process the update (approval decision)
+	if request.method == "POST":
+		purchase = Purchase.objects.get(id=request_id)
+		if '_approve' in request.POST:
+			# code if approved
+			purchase.request_approval = True
+			purchase.save()
+			return HttpResponseRedirect(reverse('sppurchase:request_open'))
+
+		elif '_reject' in request.POST:
+			# code if rejected
+			purchase.request_reject = True
+			purchase.save()
+			return HttpResponseRedirect(reverse('sppurchase:request_open'))
+
+
+	# to display the form
+	purchase = Purchase.objects.get(id=request_id)
+	purchase_items = PurchaseItems.objects.filter(purchase_id=request_id)
+
+	context = {
+		'purchase': purchase,
+		'items': purchase_items,
+		}
+
+	return render (request, 'sppurchase/requestapproval.html', context)

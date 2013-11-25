@@ -35,6 +35,9 @@ Open Purchase Request List
 					<input type="button" value="details" 
 					class="btn btn-success btn-xs pull-right btn-options" 
 					onclick="location.href='{% url 'sppurchase:request_details' purchase.id %}'"/>
+					<input type="button" value="approval" style="width:75px"
+					class="btn btn-primary btn-xs pull-right btn-options"
+					onclick="location.href='{% url 'sppurchase:request_approval' purchase.id %}'"/>
 				</div>
 			</td>
 		</tr>
