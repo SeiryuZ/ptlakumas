@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block actionbutton %}
-
+<a href="{% url 'sppurchase:request_add' %}" class="btn btn-primary btn-xs pull-right" style="margin-left:5px">Make New</a>
 {% endblock %}
 
 {% block contentheader %}
@@ -37,7 +37,7 @@ Open Purchase Request List
 					onclick="location.href='{% url 'sppurchase:request_details' purchase.id %}'"/>
 					<input type="button" value="approval" style="width:75px"
 					class="btn btn-primary btn-xs pull-right btn-options"
-					onclick="location.href='{% url 'sppurchase:request_approval' purchase.id %}'"/>
+					onclick="location.href='{% url 'sppurchase:request_review' purchase.id %}'"/>
 				</div>
 			</td>
 		</tr>

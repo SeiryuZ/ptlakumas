@@ -11,7 +11,7 @@ from accounts.models import Origin
 from django.contrib.auth.models import User
 
 @login_required(login_url='/login/')
-def request_open(request):
+def request_list(request):
 	user = User.objects.get(pk=request.user.id)
 	user_factory = user.origin.factory
 	purchases = Purchase.objects.filter(request_approval=False, 
@@ -25,7 +25,7 @@ def request_open(request):
 	context = {
 		'purchases': purchases,
 	}
-	return render (request, 'sppurchase/requestopen.html', context)
+	return render (request, 'sppurchase/requestlist.html', context)
 
 
 @login_required(login_url='/login/')
@@ -39,7 +39,7 @@ def request_add(request):
 				parent_instance = form.save()
 				formset.instance = parent_instance
 				formset.save()
-				return HttpResponseRedirect (reverse('sppurchase:request_open'))
+				return HttpResponseRedirect (reverse('sppurchase:request_list'))
 			else:
 				return HttpResponse ("save failed items level")
 		else:
@@ -73,7 +73,7 @@ def request_details(request, request_id):
 	return render (request, 'sppurchase/requestdetails.html', context)
 
 @login_required(login_url="/login/")
-def request_approval(request, request_id):
+def request_review(request, request_id):
 	# to process the update (approval decision)
 	if request.method == "POST":
 		purchase = Purchase.objects.get(id=request_id)
@@ -81,13 +81,13 @@ def request_approval(request, request_id):
 			# code if approved
 			purchase.request_approval = True
 			purchase.save()
-			return HttpResponseRedirect(reverse('sppurchase:request_open'))
+			return HttpResponseRedirect(reverse('sppurchase:request_list'))
 
 		elif '_reject' in request.POST:
 			# code if rejected
 			purchase.request_reject = True
 			purchase.save()
-			return HttpResponseRedirect(reverse('sppurchase:request_open'))
+			return HttpResponseRedirect(reverse('sppurchase:request_list'))
 
 
 	# to display the form
@@ -99,4 +99,12 @@ def request_approval(request, request_id):
 		'items': purchase_items,
 		}
 
-	return render (request, 'sppurchase/requestapproval.html', context)
+	return render (request, 'sppurchase/requestreview.html', context)
+
+@login_required(login_url="/login/")
+def request_reviewed_list(request):
+	purchases = Purchase.objects.filter(request_approval=True)
+	context = {
+		'purchases': purchases,
+		}
+	return render (request, 'sppurchase/requestreviewedlist.html', context)

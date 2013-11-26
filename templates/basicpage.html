@@ -38,8 +38,10 @@
 							<li><a href="{% url 'sp_spareparts:spmaster' %}">Master Spareparts</a></li>
 							<li><a href="{% url 'sp_spareparts:spstock' %}">Stock Spareparts</a></li>
 							<li class="divider"></li>
-							<li class="dropdown-header">Transactions</li>
-							<li><a href="{% url 'sppurchase:request_open' %}">Purchase Request</a>
+							<li class="dropdown-header">Transactions - Purchase</li>
+							<li><a href="{% url 'sppurchase:request_list' %}">Request</a></li>
+							<li><a href="{% url 'sppurchase:request_reviewed_list' %}">Reviewed Request</a></li>
+							<li><a href="{% url 'sp_spareparts:jsonresult' %}">Result JSON</a></li>
 						</ul>
 					</li>
 				</ul>

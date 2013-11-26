@@ -23,7 +23,7 @@ Purchase Request Details
 		<b>Items list:</b>
 		<ol>
 			{% for item in items %}
-			<li>{{item.master_spare_parts}} / ------- {{item.requested_quantity}}</li>
+			<li>{{item.master_spare_parts}} --- Q: {{item.requested_quantity}}</li>
 			{% endfor %}
 		</ol>
 	</div>

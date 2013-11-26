@@ -5,6 +5,8 @@ from sp_spareparts.forms import SparePartsTypesForm, MasterSparePartsForm, Stock
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.db.models.deletion import ProtectedError
+import json as simplejson
+from django.core import serializers
 # to stop execution, put below code whereever you wanna stop
 # and then directly from the console you can print (print request.POST, request.GET, request.user)
 # without changing the views.
@@ -79,6 +81,9 @@ def delete_types(request, type_id):
 @login_required(login_url='/login/')
 def master_spareparts_list(request):
 	master_spare_parts = MasterSpareParts.objects.all()
+	sort = request.GET['sort']
+	if sort == 'supplier_code':
+		master_spare_parts = master_spare_parts.order_by('supplier_code')
 	context = {
 		'master': master_spare_parts,
 		}
@@ -145,3 +150,22 @@ def stock_spareparts_list(request):
 		}
 	return render (request, 'sp_spareparts/spstock.html', context)
 
+@login_required(login_url="/login/")
+def test_json(request):
+	# get the objects
+	master_spare_parts = MasterSpareParts.objects.all()
+
+	# make it as dictionary
+	data = serializers.serialize ("json", master_spare_parts)
+
+	# convert the list into JSON
+	response_data = simplejson.dumps(data)
+
+	# return an HttpResponse with JSON and correct mime type
+	return HttpResponse(response_data, mimetype='application/json')
+
+
+
+@login_required(login_url="/login/")
+def json_result(request):
+	return render (request, 'sp_spareparts/jsonresult.html')

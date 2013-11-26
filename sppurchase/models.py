@@ -26,6 +26,9 @@ class Purchase(models.Model):
 			if self.request_reject == False:
 				return "Open"
 
+		if self.request_approval == True:
+			return "Reviewed"
+
 
 class PurchaseItems(models.Model):
 	purchase = models.ForeignKey(Purchase, on_delete=models.PROTECT)
