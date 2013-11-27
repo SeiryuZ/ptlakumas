@@ -8,3 +8,10 @@ perbaiki tabel planning sesuai model, supaya tidak bingung
 bikin pop-up modal untuk pilih item purchase maupun transfer
 bikin delete item di request_add page, jadi kalau sudah ditambahkan ya bisa dikurangi lagi
 bikin opsi pemakaian di halaman stock spare parts
+
+select related
+django-debug-toolbar
+django-tables-2 untuk pagination
+GET parameter
+baca django doc - test
+bitbucket

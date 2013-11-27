@@ -104,6 +104,9 @@ Add New Item to Spareparts Master Data
 	</div>
 </form>
 
+{% endblock %}
+
+{% block js %}
 <script language="JavaScript">
     function masking() {
         var internal_code_mask = new InputMask("UUUU####", "internal_code");
@@ -112,7 +115,7 @@ Add New Item to Spareparts Master Data
 
 </script>
 
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> -->
 <!-- Below is necessary java script source to implement input masking -->
 <script src="{% static 'js/javascripttools/JavaScriptUtil.js' %}"></script>
 <script src="{% static 'js/javascripttools/Parsers.js' %}"></script>

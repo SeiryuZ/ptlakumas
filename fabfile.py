@@ -37,6 +37,11 @@ def build_database():
 	for app in apps_to_watch:
 		local ("manage.py convert_to_south %s" % app)
 
+def git_push(version):
+	local ("git add -A")
+	local ("git commit -m '%s'" % version)
+	local ("git push origin master")
+
 # to rebuild database:
 # 1. drop the whole schema from workbench
 # 2. run fab delete_migrations_folders

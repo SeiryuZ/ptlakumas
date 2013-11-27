@@ -50,6 +50,11 @@ Create New Purchase Request
 						<label class="sr-only" for="id_quantity">Quantity</label>
 						<div class="col-md-1">{{item.requested_quantity|add_class:"form-control"|attr:"placeholder:quantity"|attr:"style:width:100px"}}</div>
 					</div>
+
+					<div class="form-group" id="delete_item{{forloop.counter}}">
+						<div class="btn btn-xs btn-warning" style="margin-left:25px">delete</div>
+					</div>
+
 				</div>
 				{% endfor %}
 			</div>
@@ -57,6 +62,7 @@ Create New Purchase Request
 
 			<div class="row" style="margin-top:25px">
 				<button type="button" class="btn" id="add_item">Add item</button>
+				<button type="button" class="btn" id="test_item">Test item</button>
 			</div>
 
 		</div>
@@ -68,46 +74,106 @@ Create New Purchase Request
 	</div>
 </form>
 
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+{% endblock %}
 
+
+{% block js %}
 <script>
+// enable user to add and delete purchase items
 	$(document).ready(function(){
-		var count = $("#purchase_items").children().length;
-		var new_item_html = 
-		'<div class="form form-inline" role="form">'+
-			'<div class="form-group">'+
-				'<label class="sr-only" for="id_master_spare_parts">Spare Parts</label>'+
-				'<div class="col-md-1">'+
-					'<select class="form-control" id="id_purchaseitems_set-'+ count +'-master_spare_parts" name="purchaseitems_set-'+ count +'-master_spare_parts" placeholder="spareparts" style="width:200px">'+
-						'<option value="" selected="selected">---------</option>'+
-						'{% for master in masters %}'+
-						'<option value="{{master.id}}">{{master.internal_code}} / {{master.supplier_code}}</option>'+
-						'{% endfor %}'+
-					'</select>'+
-				'</div>'+
-			'</div>'+
-
-			'<div class="form-group">'+
-				'<label class="sr-only" for="id_quantity">Quantity</label>'+
-				'<div class="col-md-1">'+
-					'<input class="form-control" id="id_purchaseitems_set-'+ count +'-requested_quantity" name="purchaseitems_set-'+ count +'-requested_quantity" placeholder="quantity" style="width:100px;margin-left:4px" type="text" />'+
-				'</div>'+
-			'</div>'+
-		'</div>'
-		
 		$("#add_item").click(function(){
+			var count = $("#purchase_items").children().length;
+			var new_item_html = 
+			'<div class="form form-inline" role="form">'+
+				'<div class="form-group">'+
+					'<label class="sr-only" for="id_master_spare_parts">Spare Parts</label>'+
+					'<div class="col-md-1">'+
+						'<select class="form-control" id="id_purchaseitems_set-'+ count +'-master_spare_parts" name="purchaseitems_set-'+ count +'-master_spare_parts" placeholder="spareparts" style="width:200px">'+
+							'<option value="" selected="selected">---------</option>'+
+							'{% for master in masters %}'+
+							'<option value="{{master.id}}">{{master.internal_code}} / {{master.supplier_code}}</option>'+
+							'{% endfor %}'+
+						'</select>'+
+					'</div>'+
+				'</div>'+
 
+				'<div class="form-group">'+
+					'<label class="sr-only" for="id_quantity">Quantity</label>'+
+					'<div class="col-md-1">'+
+						'<input class="form-control" id="id_purchaseitems_set-'+ count +'-requested_quantity" name="purchaseitems_set-'+ count +'-requested_quantity" placeholder="quantity" style="width:100px;margin-left:4px" type="text" />'+
+					'</div>'+
+				'</div>'+
+
+				'<div class="form-group" id="delete_item' + (count+1) + '">' + 
+					'<div class="btn btn-xs btn-warning" style="margin-left:29px">delete</div>' +
+				'</div>'
+			'</div>'
 
 			$("#purchase_items").append(new_item_html);
 			$("#id_purchaseitems_set-TOTAL_FORMS").attr("value", count+1)
+
+			delete_item();
 		});
+
+		function delete_item () {
+			var item_count = $("#purchase_items").children().length;
+			var delete_id_array = [];
+
+			for (var i = 1; i <= item_count; i++){
+				var delete_id = "#delete_item"+i
+				delete_id_array.push(delete_id);
+			}
+
+			$.each(delete_id_array, function(index, element){
+				$(element).click(function(){
+					$(element).parent().remove();
+				});
+			});
+		}
+
+		function update_form() {
+			items = $('#purchase_items').children();
+			items_count = 0
+			$.each(items, function(index){
+				while (document.getElementById("id_purchaseitems_set-" + index + "-master_spare_parts") == null) {
+					console.log(index + " tidak ada")					
+					index++;
+				}
+
+				// to modify the id and name of master spare parts field
+				$("#id_purchaseitems_set-" + index + "-master_spare_parts").attr("name", "purchaseitems_set-" + items_count + "-master_spare_parts")				
+				$("#id_purchaseitems_set-" + index + "-master_spare_parts").attr("id", "id_purchaseitems_set-" + items_count + "-master_spare_parts")
+
+
+				// to modify the id and name of requested quantity field
+
+				$("#id_purchaseitems_set-" + index + "-requested_quantity").attr("name", "purchaseitems_set-" + items_count + "-requested_quantity")
+				$("#id_purchaseitems_set-" + index + "-requested_quantity").attr("id", "id_purchaseitems_set-" + items_count + "-requested_quantity")				
+
+				//to modify the delete_id
+				$("#delete_item"+(index+1)).attr("id", "delete_item"+(items_count+1))
+
+
+				$("#id_purchaseitems_set-TOTAL_FORMS").attr("value", (items_count+1))
+
+				items_count++;
+
+				console.log(this)
+			});
+			total_forms = $("#id_purchaseitems_set-TOTAL_FORMS").val()
+			console.log(total_forms)
+		}
+
+		delete_item();
+
+		$("#test_item").click(function(){
+			update_form();
+		});
+
 	});
 
 
-// Update the inline items count
-// $(id_purchaseitems_set-TOTAL_FORMS).attr("value", count)
-
-
+	// Update the inline items count
+	// $(id_purchaseitems_set-TOTAL_FORMS).attr("value", count)
 </script>
-
 {% endblock %}

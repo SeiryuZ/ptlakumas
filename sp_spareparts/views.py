@@ -81,9 +81,9 @@ def delete_types(request, type_id):
 @login_required(login_url='/login/')
 def master_spareparts_list(request):
 	master_spare_parts = MasterSpareParts.objects.all()
-	sort = request.GET['sort']
-	if sort == 'supplier_code':
-		master_spare_parts = master_spare_parts.order_by('supplier_code')
+	# sort = request.GET.get('sort')
+	# if sort == 'supplier_code':
+	# 	master_spare_parts = master_spare_parts.order_by('supplier_code')
 	context = {
 		'master': master_spare_parts,
 		}

@@ -26,6 +26,7 @@ Result JSON
 $(document).ready(function(){
 	$.getJSON("{% url 'sp_spareparts:testjson' %}", function(data){
 		$('#test').html('<p> data length:' + data.length + "</p>");
+		console.log(data)
 		$.each($.parseJSON(data), function(){
 			console.log(this);
 			var column_html = '<tr><td>' + this.fields.internal_code + '</td>' +
