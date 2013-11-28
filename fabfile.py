@@ -39,7 +39,7 @@ def build_database():
 
 def git_push(version):
 	local ("git add -A")
-	local ("git commit -m '%s'" % version)
+	local ("git commit -m %s" % version)
 	local ("git push origin master")
 
 # to rebuild database:

@@ -112,7 +112,7 @@ Create New Purchase Request
 			$("#purchase_items").append(new_item_html);
 			$("#id_purchaseitems_set-TOTAL_FORMS").attr("value", count+1)
 
-			delete_item();
+			update_form(); // to renumber all the id's and name.
 		});
 
 		function delete_item () {
@@ -124,9 +124,15 @@ Create New Purchase Request
 				delete_id_array.push(delete_id);
 			}
 
+			console.log(delete_id_array)
+
 			$.each(delete_id_array, function(index, element){
+				console.log(element)
 				$(element).click(function(){
-					$(element).parent().remove();
+					$(element).parent().find(":input").val(null);
+					$(element).parent().hide();
+					// just to set the field to null / empty string
+					// or modify the request.POST to ignore hidden inline set
 				});
 			});
 		}
@@ -157,20 +163,19 @@ Create New Purchase Request
 				$("#id_purchaseitems_set-TOTAL_FORMS").attr("value", (items_count+1))
 
 				items_count++;
-
-				console.log(this)
 			});
-			total_forms = $("#id_purchaseitems_set-TOTAL_FORMS").val()
-			console.log(total_forms)
-		}
 
 		delete_item();
+		}
+
+		delete_item(); // generate delete script when document ready
 
 		$("#test_item").click(function(){
 			update_form();
 		});
 
 	});
+
 
 
 	// Update the inline items count
