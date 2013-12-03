@@ -22,7 +22,7 @@ def loginauth(request):
 		if user is not None:
 			if user.is_active:
 				auth_login(request,user)
-				return HttpResponseRedirect(reverse('sp_spareparts:default'))
+				return HttpResponseRedirect(reverse('spareparts_master:default'))
 			else:
 				return HttpResponse("Account has been disabled. "\
 					"Please contact administrator.")

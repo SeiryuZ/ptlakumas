@@ -1,0 +1,54 @@
+{% extends "basicpage.html" %}
+{% load staticfiles %}
+
+{% block actionbutton %}
+<a href="{% url 'spareparts_purchase:request_add' %}" class="btn btn-primary btn-xs pull-right" style="margin-left:5px">Make New</a>
+{% endblock %}
+
+{% block contentheader %}
+Open Purchase Request List
+{% endblock %}
+
+{% block content %}
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th style="width:1px;white-space:nowrap">#</th>
+			<th style="width:1px;white-space:nowrap">.</th>
+			<th>
+				<div class="col-md-2">Request Number</div>
+				<div class="col-md-2">Factory</div>
+				<div class="col-md-2">Status</div>
+				<div class="col-md-6" style="padding-right:0px;text-align:right">Option</div>
+			</th>
+		</tr>
+	</thead>
+		{% for purchase in purchases %}
+		<tr>
+			<td style="width:1px;white-space:nowrap">{{forloop.counter}}</td>
+			<td style="width:1px;white-space:nowrap">.</td>
+			<td>
+				<div class="col-md-2">{{purchase.request_number}}</div>
+				<div class="col-md-2">{{purchase.factory}}</div>
+				<div class="col-md-2">{{purchase.status}}</div>
+				<div class="col-md-6" style="padding-right:0px">
+					<input type="button" value="details" 
+					class="btn btn-success btn-xs pull-right btn-options" 
+					onclick="location.href='{% url 'spareparts_purchase:request_details' purchase.id %}'"/>
+					<input type="button" value="approval" style="width:75px"
+					class="btn btn-primary btn-xs pull-right btn-options"
+					onclick="location.href='{% url 'spareparts_purchase:request_review' purchase.id %}'"/>
+				</div>
+			</td>
+		</tr>
+		{% endfor %}
+
+	<tbody>
+
+	</tbody>
+</table>
+
+
+
+
+{% endblock %}

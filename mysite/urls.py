@@ -15,8 +15,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('accounts.urls', namespace='accounts')),
-    url(r'^spareparts/', include('sp_spareparts.urls', namespace='sp_spareparts')),
-    url(r'^sppurchase/', include('sppurchase.urls', namespace='sppurchase')),
-    url(r'^sptransfer/', include('sptransfer.urls', namespace='sptransfer')),
+    url(r'^spareparts/', include('spareparts.master.urls', namespace='spareparts_master')),
+    url(r'^sppurchase/', include('spareparts.purchase.urls', namespace='spareparts_purchase')),
+    url(r'^sptransfer/', include('spareparts.transfer.urls', namespace='spareparts_transfer')),
 
 )

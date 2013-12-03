@@ -1,0 +1,20 @@
+{% extends "basicpage.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block contentheader %}
+Forms
+{% endblock %}
+
+
+
+{% block content %}
+<form role="form" action="{% url 'spareparts_master:sptypesedit' type.id %}" method="POST">
+	{% csrf_token %}
+	<div class="form-group">
+		<label for="id_spare_parts_types">Update name below:</label>
+			{{form.spareparts_type|add_class:"form-control"|attr:"placeholder:spare part type"}}
+	</div>
+	<button type="submit" class="btn btn-primary">Update name!</button>
+</form>
+{% endblock %}

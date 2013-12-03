@@ -132,11 +132,11 @@ INSTALLED_APPS = (
     'accounts',
     'basicinfo',
     'logs',
-    'sp_spareparts',
-    'sppurchase',
-    'sptransfer',
-    'spusage',
-    'sppermit',
+    'spareparts.master',
+    'spareparts.purchase',
+    'spareparts.transfer',
+    'spareparts.usage',
+    'spareparts.permit',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

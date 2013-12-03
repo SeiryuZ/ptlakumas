@@ -21,7 +21,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="{% url 'sp_spareparts:default' %}"><b>PT Lakumas</b></a>
+				<a class="navbar-brand" href="{% url 'spareparts_master:default' %}"><b>PT Lakumas</b></a>
 			</div>
 			<!-- Brand / Project name ..... end -->
 			
@@ -34,14 +34,14 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Spareparts <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="{% url 'sp_spareparts:sptypes' %}">Spareparts Type</a></li>							
-							<li><a href="{% url 'sp_spareparts:spmaster' %}">Master Spareparts</a></li>
-							<li><a href="{% url 'sp_spareparts:spstock' %}">Stock Spareparts</a></li>
+							<li><a href="{% url 'spareparts_master:sptypes' %}">Spareparts Type</a></li>							
+							<li><a href="{% url 'spareparts_master:spmaster' %}">Master Spareparts</a></li>
+							<li><a href="{% url 'spareparts_master:spstock' %}">Stock Spareparts</a></li>
 							<li class="divider"></li>
 							<li class="dropdown-header">Transactions - Purchase</li>
-							<li><a href="{% url 'sppurchase:request_list' %}">Request</a></li>
-							<li><a href="{% url 'sppurchase:request_reviewed_list' %}">Reviewed Request</a></li>
-							<li><a href="{% url 'sp_spareparts:jsonresult' %}">Result JSON</a></li>
+							<li><a href="{% url 'spareparts_purchase:request_list' %}">Request</a></li>
+							<li><a href="{% url 'spareparts_purchase:request_reviewed_list' %}">Reviewed Request</a></li>
+							<li><a href="{% url 'spareparts_master:jsonresult' %}">Result JSON</a></li>
 						</ul>
 					</li>
 				</ul>

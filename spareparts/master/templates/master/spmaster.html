@@ -1,0 +1,61 @@
+{% extends "basicpage.html" %}
+{% load staticfiles %}
+
+{% block actionbutton %}
+<a href="{% url 'spareparts_master:spmasteradd' %}" class="btn btn-primary btn-xs pull-right" style="margin-left:5px; width:100px">Add</a>
+{% endblock %}
+
+{% block contentheader %}
+Master Spare Parts
+{% endblock %}
+
+{% block content %}
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th style="width:1%;white-space:nowrap">#</th>
+			<th style="width:1%;white-space:nowrap"></th>
+			<th style="width:35%">
+				<div class="col-md-4">Internal Code</div>
+				<div class="col-md-4">Supplier Code</div>
+				<div class="col-md-4">Department</div>
+			</th>
+			<th style="width:48%">
+				<div class="col-md-3">Machine</div>
+				<div class="col-md-3">Type</div>				
+				<div class="col-md-2">Moving</div>
+				<div class="col-md-4" style="padding-right:0px;text-align:right">
+					Options</div>
+			</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% for spareparts in master %}
+		<tr>
+			<td style="width:1%;white-space:nowrap">{{forloop.counter}}</td>
+			<td style="width:1%;white-space:nowrap">.</td>
+			<td style="width:35%">
+				<div class="col-md-4">{{spareparts.internal_code}}</div>
+				<div class="col-md-4">{{spareparts.supplier_code}}</div>
+				<div class="col-md-4">{{spareparts.machine_type.department}}</div>
+			</td>
+			<td style="width:48%">
+				<div class="col-md-3">{{spareparts.machine_type}}</div>
+				<div class="col-md-3">{{spareparts.spareparts_type}}</div>
+				<div class="col-md-2">{{spareparts.get_movability_display}}</div>
+				<div class="col-md-4" style="padding-right:0px">
+					<input type="button" value="edit"
+					class="btn btn-success btn-xs pull-right btn-options"
+					onclick="location.href='{% url 'spareparts_master:spmasteredit' spareparts.id %}'"/>
+					<input type="button" value="delete"
+					class="btn btn-danger btn-xs btn-options pull-right"
+					onclick="location.href='{% url 'spareparts_master:spmasterdelete' spareparts.id %}'"/>
+				</div>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% endblock %}

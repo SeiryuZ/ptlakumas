@@ -60,3 +60,12 @@ pre_delete.connect(delete_basic_info_logs, sender=Factory)
 
 post_save.connect(add_basic_info_logs, sender=Basic)
 pre_delete.connect(delete_basic_info_logs, sender=Basic)
+
+post_save.connect(add_basic_info_logs, sender=Department)
+pre_delete.connect(add_basic_info_logs, sender=Department)
+
+post_save.connect(add_basic_info_logs, sender=MachineType)
+pre_delete.connect(add_basic_info_logs, sender=MachineType)
+
+post_save.connect(add_basic_info_logs, sender=MachineID)
+pre_delete.connect(add_basic_info_logs, sender=MachineID)
