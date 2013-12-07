@@ -1,7 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from spareparts.master.models import SparePartsTypes, MasterSpareParts, StockSpareParts
-from spareparts.master.forms import SparePartsTypesForm, MasterSparePartsForm, StockSparePartsForm
+from spareparts.master.models import SparePartsTypes, MasterSpareParts, \
+	StockSpareParts, MachineSuitability
+from spareparts.master.forms import SparePartsTypesForm, MasterSparePartsForm, \
+	StockSparePartsForm, MachineSuitabilityForm, MachineSuitabilityFormSet
+from basicinfo.models import MachineType
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.db.models.deletion import ProtectedError
@@ -74,16 +77,20 @@ def delete_types(request, type_id):
 	try:
 		spareparts_types = SparePartsTypes.objects.get(pk=type_id).delete()
 	except ProtectedError:
-		HttpResponse ("there is child data. cannot delete object")
+		return HttpResponse ("there is child data. cannot delete object")
 
 	return HttpResponseRedirect(reverse('spareparts_master:sptypes'))
 
 @login_required(login_url='/login/')
 def master_spareparts_list(request):
 	master_spare_parts = MasterSpareParts.objects.all()
-	# sort = request.GET.get('sort')
-	# if sort == 'supplier_code':
-	# 	master_spare_parts = master_spare_parts.order_by('supplier_code')
+	sort = request.GET.get('sort')
+	if sort == 'supplier_code':
+		master_spare_parts = master_spare_parts.order_by('supplier_code')
+	elif sort == 'rev_supplier_code':
+		master_spare_parts = master_spare_parts.order_by('-supplier_code')
+
+	
 	context = {
 		'master': master_spare_parts,
 		}
@@ -94,18 +101,27 @@ def add_master(request):
 	# to process the addtion
 	if request.method =='POST':
 		form = MasterSparePartsForm(request.POST)
+		formset = MachineSuitabilityFormSet(request.POST)
 		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect(reverse('spareparts_master:spmaster'))
+			if formset.is_valid():
+				parent_instance = form.save()
+				formset.instance = parent_instance
+				formset.save()
+				return HttpResponseRedirect(reverse('spareparts_master:spmaster'))
+			else:
+				return HttpResponse ("save failed items level")
 		else:
-			print (request.POST)
-			# return HttpResponse("some data are not entered corrently")
+			return HttpResponse("some data are not entered corrently")
 	
 
 	# to display the form
 	form = MasterSparePartsForm()
+	formset = MachineSuitabilityFormSet()
+	machine_type = MachineType.objects.all()
 	context = {
 		'form' : form,
+		'formset': formset,
+		'types': machine_type,
 		}
 	return render (request, 'master/spmasteradd.html', context)
 
@@ -115,18 +131,30 @@ def edit_master(request, master_id):
 	if request.method == 'POST':
 		master_spare_parts = MasterSpareParts.objects.get(pk=master_id)
 		form = MasterSparePartsForm(request.POST, instance=master_spare_parts)
+		formset = MachineSuitabilityFormSet(request.POST, request.FILES, instance=master_spare_parts)
+
 		if form.is_valid():
-			master_spare_parts = form.save(commit=False)
-			master_spare_parts.save()
-			return HttpResponseRedirect(reverse('spareparts_master:spmaster'))
+			if formset.is_valid():
+				master_spare_parts = form.save()
+				formset.save()
+				print request.POST
+				print request.FILES
+				return HttpResponseRedirect(reverse('spareparts_master:spmaster'))
+			else:
+				return HttpResponse ("Formset data is invalid")
 		else:
-			return HttpResponse ("some data are not entered corrently")
+			return HttpResponse ("Form data is invalid")
 
 	# to display the form of related object
 	master_spare_parts = MasterSpareParts.objects.get(pk=master_id)
+	machine_suitability = MachineSuitability.objects.filter(master_spare_parts_id=master_id)
 	form = MasterSparePartsForm(instance=master_spare_parts)
+	formset = MachineSuitabilityFormSet(instance=master_spare_parts)
+
 	context = {
 		'form' : form,
+		'formset': formset,
+		'machine_suitability': machine_suitability,
 		'master' : master_spare_parts,
 	}
 	return render (request, 'master/spmasteredit.html', context)

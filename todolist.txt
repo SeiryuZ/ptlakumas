@@ -6,12 +6,11 @@ perbaiki tabel planning sesuai model, supaya tidak bingung
 bikin pop-up modal untuk pilih item purchase maupun transfer
 bikin opsi pemakaian di halaman stock spare parts
 cegah pemakaian spasi di supplier_code
+bikin form inline set di master_add
 
 select related
 django-debug-toolbar
 
 Urgent:
 django-tables-2 untuk pagination
-GET parameter
 baca django doc - test
-bitbucket

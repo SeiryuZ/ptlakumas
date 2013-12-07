@@ -6,7 +6,8 @@ from django.db.models.deletion import ProtectedError
 from django.forms.models import inlineformset_factory
 from spareparts.purchase.models import Purchase, PurchaseItems, PurchaseItemsDelivery
 from spareparts.master.models import MasterSpareParts
-from spareparts.purchase.forms import PurchaseForm, PurchaseItemsForm, PurchaseItemsDeliveryForm, PurchaseItemsFormSet
+from spareparts.purchase.forms import PurchaseForm, PurchaseItemsForm, \
+	PurchaseItemsDeliveryForm, PurchaseItemsFormSet
 from accounts.models import Origin
 from django.contrib.auth.models import User
 
@@ -39,7 +40,7 @@ def request_add(request):
 				parent_instance = form.save()
 				formset.instance = parent_instance
 				formset.save()
-				return HttpResponseRedirect (reverse('sppurchase:request_list'))
+				return HttpResponseRedirect (reverse('spareparts_purchase:request_list'))
 			else:
 				return HttpResponse ("save failed items level")
 		else:

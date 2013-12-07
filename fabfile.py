@@ -1,12 +1,8 @@
 from fabric.api import local, settings, lcd
 
-root_apps_to_watch = ["accounts", "basicinfo", "logs", "spareparts/master",
-				"spareparts/permit", "spareparts/purchase", "spareparts/transfer",
-				"spareparts/usage"]
+root_apps_to_watch = ["accounts", "basicinfo", "logs"]
 
 spareparts_apps = ["master","permit", "purchase", "transfer", "usage"]
-
-
 
 new_apps = []
 
@@ -22,6 +18,9 @@ def migrate_initial():
 def schemamigration_auto():
 	with settings(warn_only=True):
 		for app in root_apps_to_watch:
+			local ("manage.py schemamigration %s --auto" % app)
+
+		for app in spareparts_apps:
 			local ("manage.py schemamigration %s --auto" % app)
 
 def migrate_auto():

@@ -17,8 +17,7 @@ class MasterSpareParts(models.Model):
 	internal_code = models.CharField(max_length=8, unique=True)
 	supplier_code = models.CharField(max_length=20)
 	barcode = models.CharField(max_length=100, null=True, blank=True)
-	machine_type = models.ForeignKey(MachineType, on_delete=models.PROTECT)
-
+	
 	CHARACTER_CHOICES = (
 		('M', 'Mechanical'),
 		('E', 'Electrical'),
@@ -60,6 +59,11 @@ class StockSpareParts(models.Model):
 
 	class Meta:
 		verbose_name = 'Stock'
+
+class MachineSuitability(models.Model):
+	master_spare_parts = models.ForeignKey(MasterSpareParts)
+	machine_type = models.ForeignKey(MachineType, on_delete=models.PROTECT)
+
 
 post_save.connect(add_spareparts_logs, sender=SparePartsTypes)
 pre_delete.connect(delete_spareparts_logs, sender=SparePartsTypes)

@@ -17,7 +17,7 @@ Master Spare Parts
 			<th style="width:1%;white-space:nowrap"></th>
 			<th style="width:35%">
 				<div class="col-md-4">Internal Code</div>
-				<div class="col-md-4">Supplier Code</div>
+				<div class="col-md-4" ><a id="supplier_code_sorter" style="color:black" href="#">SupplierCode</a></div>
 				<div class="col-md-4">Department</div>
 			</th>
 			<th style="width:48%">
@@ -57,5 +57,37 @@ Master Spare Parts
 		{% endfor %}
 	</tbody>
 </table>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+	function GetURLParameter(sParam){
+    	var sPageURL = window.location.search.substring(1);
+    	var sURLVariables = sPageURL.split('&');
+    	for (var i = 0; i < sURLVariables.length; i++){
+        	var sParameterName = sURLVariables[i].split('=');
+        	if (sParameterName[0] == sParam){
+            	return sParameterName[1];
+        	};
+   		};
+   	}
+
+	$("#supplier_code_sorter").click(function(){
+		var sort_param = GetURLParameter('sort');
+		if (sort_param=="supplier_code"){
+			$("#supplier_code_sorter").attr("href", "?sort=rev_supplier_code");
+		}
+		else {
+			$("#supplier_code_sorter").attr("href", "?sort=supplier_code");
+		}
+
+
+	});
+});
+
+</script>
 
 {% endblock %}

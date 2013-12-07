@@ -28,9 +28,22 @@ Add New Item to Spareparts Master Data
 			</div>
 
 			<div class="form-group">
-				<label for="id_machine_type" class="col-md-4 control-label" style="text-align:left">Machine Type</label>
-				<div class="col-md-6">
-					{{form.machine_type|add_class:"form-control"|attr:"placeholder:machine type"}}
+				<label for="id_machine_type" class="col-md-4 control-label" style="text-align:left">
+					<div>Machine Suitability</div>
+					<div style="width:75px;color:blue;font-size:12px" id="add_suitability">Add Item</div>
+				</label>
+				<div class="col-md-8" id="machine-suitability-items">
+					{{ formset.management_form }}
+						{% for item in formset %}
+							<div id="parent-for-delete-only">
+								<div class="col-md-7" style="padding:0px">
+									{{ item.machine_type | add_class:"form-control" | attr:"style:margin-top:5px"}}
+								</div>
+								<div class="col-md-5" id="delete{{forloop.counter}}">
+									<button type="button" class="btn btn-xs btn-warning" style="margin-top:10px">delete</button>
+								</div>
+							</div>
+						{% endfor %}
 				</div>
 			</div>
 
@@ -120,6 +133,7 @@ Add New Item to Spareparts Master Data
 <script src="{% static 'js/javascripttools/JavaScriptUtil.js' %}"></script>
 <script src="{% static 'js/javascripttools/Parsers.js' %}"></script>
 <script src="{% static 'js/javascripttools/InputMask.js' %}"></script>
+
 <script>
 //demonstrate variable creation with break lines
 var internal_code_help = 
@@ -136,6 +150,7 @@ var supplier_code_help =
 var no_help_text = "No help text available."
 
 	$(document).ready(function(){
+	  //function to show/hide help
 	  $("#id_internal_code").focus(function(){
 	    $("#fieldhelp").html(internal_code_help);
 	  });
@@ -148,8 +163,60 @@ var no_help_text = "No help text available."
 	  $("#id_machine_type, #id_character, #id_movability, #id_chain_wheel_type, #id_spareparts_type, #id_natural_frequency, #id_lifetime").focus(function(){
 	  	$("#fieldhelp").html(no_help_text);
 	  });
-	});
 
+
+	  //function to add item for machine suitability
+	  $("#add_suitability").click(function(){
+	  	var count = $("#machine-suitability-items").find("select").length;
+	  	var new_html =
+	  	'<div id="parent-for-delete-only">'+
+
+	  	'<div class="col-md-7" style="padding:0px">' +
+		  	'<select class="form-control" id="id_machinesuitability_set-'+count+'-machine_type" name="machinesuitability_set-'+count+'-machine_type" style="margin-top:5px">' + 
+				'<option value="" selected="selected">---------</option>' + 
+				'{% for type in types %}' +
+					'<option value="{{type.id}}">{{type.machine_type}}</option>' +
+				'{% endfor %}' +
+			'</select>' +
+		'</div>' +
+
+		'<div class="col-md-5" id="delete'+(count+1)+'">' +
+			'<button type="button" class="btn btn-xs btn-warning" style="margin-top:10px">delete</button>' +
+		'</div>' +
+
+		'</div>'
+
+
+		$("#machine-suitability-items").append(new_html);
+		$("#id_machinesuitability_set-TOTAL_FORMS").attr("value", count+1);
+		console.log(count);
+		delete_item();
+
+	  });
+
+	  function delete_item(){
+	  	var count = $("#machine-suitability-items").find("select").length;
+	  	var delete_id_array = []
+
+	  	for (var i = 1; i <= count; i++){
+	  		var delete_id = "#delete"+i
+	  		delete_id_array.push(delete_id);
+	  	}
+
+	  	console.log(delete_id_array)
+	  	$.each(delete_id_array, function(index, element){
+	  		$(element).click(function(){
+	  			console.log(element)
+	  			$(element).parent().find("select").val(null);
+	  			$(element).parent().hide();
+	  		});
+	  	});
+	  }
+
+	  delete_item();
+
+
+	});
 
 </script>
 

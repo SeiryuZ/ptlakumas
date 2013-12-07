@@ -7,6 +7,7 @@ Add New Item to Spareparts Master Data
 {% endblock %}
 
 {% block content %}
+<body onload="masking()">
 <form role="form" class="form-horizontal" action="{% url 'spareparts_master:spmasteredit' master.id %}" method="POST">
 	<div class="row">
 		<div class="col-md-6" style="border-right:1px solid #eee">
@@ -14,7 +15,7 @@ Add New Item to Spareparts Master Data
 			<div class="form-group">
 				<label for="id_internal_code" class="col-md-4 control-label" style="text-align:left">Internal Code</label>
 				<div class="col-md-6">
-					{{form.internal_code|add_class:"form-control"|attr:"placeholder:internal code"}}
+					{{form.internal_code|add_class:"form-control"|attr:"placeholder:internal code"|attr:"name:internal_code"}}
 				</div>
 			</div>
 
@@ -25,10 +26,20 @@ Add New Item to Spareparts Master Data
 				</div>
 			</div>
 
-			<div class="form-group">
-				<label for="id_machine_type" class="col-md-4 control-label" style="text-align:left">Machine Type</label>
-				<div class="col-md-6">
-					{{form.machine_type|add_class:"form-control"|attr:"placeholder:machine type"}}
+			<div class="form-group" id="machine-suitability">
+				<label for="id_machine_type" class="col-md-4 control-label" style="text-align:left">
+					<div>Machine Type</div>
+					<div style="width:75px;color:blue;font-size:12px" id="edit_suitability" data-toggle="modal" data-target="#myModal">edit</div>
+				</label>
+				<div class="col-md-8" id="machine-suitability-items" style="padding-top:7px">
+					{{formset.as_p}}
+					<!--{% if machine_suitability %}
+						{% for item in machine_suitability %}
+							<p>{{forloop.counter}}. {{item.machine_type}}</p>
+						{% endfor %}
+					{% else %}
+						-- no data --
+					{% endif %} -->
 				</div>
 			</div>
 
@@ -71,7 +82,7 @@ Add New Item to Spareparts Master Data
 				<label for="id_lifetime" class="col-md-4 control-label" style="text-align:left">Est. Lifetime</label>
 				<div class="col-md-4">
 					<div class="input-group">
-						{{form.lifetime|add_class:"form-control"|attr:"placeholder:lifetime"}}
+						{{form.lifetime|add_class:"form-control"|attr:"placeholder:lifetime"|attr:"name:lifetime"}}
 						<span class="input-group-addon">months</span>
 					</div>
 				</div>
@@ -84,5 +95,61 @@ Add New Item to Spareparts Master Data
 
 	</div>
 </form>
+
+
+<!-- MODAL -->
+<div class="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Edit machine suitability on <b>{{master.internal_code}} / {{master.supplier_code}}</b></h4>
+			</div>
+
+			<div class="modal-body">
+				{{formset.management_form}}
+				{{formset.as_p}}
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div> <!-- modal-content -->
+	</div> <!-- modal dialog -->
+</div> <!-- modal -->
+
+{% endblock %}
+
+{% block js %}
+<!-- masking function -->
+
+<!-- <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> -->
+<!-- Below is necessary java script source to implement input masking -->
+<script src="{% static 'js/javascripttools/JavaScriptUtil.js' %}"></script>
+<script src="{% static 'js/javascripttools/Parsers.js' %}"></script>
+<script src="{% static 'js/javascripttools/InputMask.js' %}"></script>
+
+<script language="JavaScript">
+    function masking() {
+        var internal_code_mask = new InputMask("UUUU####", "internal_code");
+        var lifetime_mask = new InputMask("##", "lifetime")
+    }
+
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#machine-suitability").find("select").attr("class", "form-control");
+	$("#machine-suitability").find("select").siblings().attr("class", "sr-only");
+	$("#machine-suitability").find("select").parent().wrap('<div class="col-md-7" style="padding:0px">');
+	$("label:contains('Delete:')").parent().wrap('<div class="col-md-5 style="padding:0px">');
+	$("label:contains('Delete:')").text("delete?");
+	// $("#machine-suitability").find("label").attr("class", "sr-only");
+});
+
+
+
+</script>
 
 {% endblock %}

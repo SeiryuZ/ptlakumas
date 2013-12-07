@@ -124,10 +124,7 @@ Create New Purchase Request
 				delete_id_array.push(delete_id);
 			}
 
-			console.log(delete_id_array)
-
 			$.each(delete_id_array, function(index, element){
-				console.log(element)
 				$(element).click(function(){
 					$(element).parent().find(":input").val(null);
 					$(element).parent().hide();
